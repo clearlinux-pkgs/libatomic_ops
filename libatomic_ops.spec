@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libatomic_ops
-Version  : 7.6.12
-Release  : 28
-URL      : https://github.com/ivmai/libatomic_ops/releases/download/v7.6.12/libatomic_ops-7.6.12.tar.gz
-Source0  : https://github.com/ivmai/libatomic_ops/releases/download/v7.6.12/libatomic_ops-7.6.12.tar.gz
+Version  : 7.6.14
+Release  : 29
+URL      : https://github.com/ivmai/libatomic_ops/releases/download/v7.6.14/libatomic_ops-7.6.14.tar.gz
+Source0  : https://github.com/ivmai/libatomic_ops/releases/download/v7.6.14/libatomic_ops-7.6.14.tar.gz
 Summary  : Atomic memory update operations
 Group    : Development/Tools
 License  : GPL-2.0
@@ -98,10 +98,10 @@ staticdev32 components for the libatomic_ops package.
 
 
 %prep
-%setup -q -n libatomic_ops-7.6.12
-cd %{_builddir}/libatomic_ops-7.6.12
+%setup -q -n libatomic_ops-7.6.14
+cd %{_builddir}/libatomic_ops-7.6.14
 pushd ..
-cp -a libatomic_ops-7.6.12 build32
+cp -a libatomic_ops-7.6.14 build32
 popd
 
 %build
@@ -109,7 +109,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1631721781
+export SOURCE_DATE_EPOCH=1661472340
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
 export FCFLAGS="$FFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-interposition -mprefer-vector-width=256 "
@@ -119,7 +119,7 @@ export CXXFLAGS="$CXXFLAGS -Ofast -falign-functions=32 -fno-lto -fno-semantic-in
 make  %{?_smp_mflags}
 
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
@@ -137,15 +137,21 @@ cd ../build32;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1631721781
+export SOURCE_DATE_EPOCH=1661472340
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libatomic_ops
-cp %{_builddir}/libatomic_ops-7.6.12/COPYING %{buildroot}/usr/share/package-licenses/libatomic_ops/4cc77b90af91e615a64ae04893fdffa7939db84c
+cp %{_builddir}/libatomic_ops-%{version}/COPYING %{buildroot}/usr/share/package-licenses/libatomic_ops/4cc77b90af91e615a64ae04893fdffa7939db84c || :
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
 then
 pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
@@ -243,14 +249,14 @@ popd
 /usr/lib64/libatomic_ops.so.1
 /usr/lib64/libatomic_ops.so.1.1.1
 /usr/lib64/libatomic_ops_gpl.so.1
-/usr/lib64/libatomic_ops_gpl.so.1.1.2
+/usr/lib64/libatomic_ops_gpl.so.1.1.3
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libatomic_ops.so.1
 /usr/lib32/libatomic_ops.so.1.1.1
 /usr/lib32/libatomic_ops_gpl.so.1
-/usr/lib32/libatomic_ops_gpl.so.1.1.2
+/usr/lib32/libatomic_ops_gpl.so.1.1.3
 
 %files license
 %defattr(0644,root,root,0755)
