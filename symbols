@@ -5,5 +5,9 @@ libatomic_ops.so.1:AO_store_full_emulation
 libatomic_ops_gpl.so.1:AO_free
 libatomic_ops_gpl.so.1:AO_malloc
 libatomic_ops_gpl.so.1:AO_malloc_enable_mmap
+libatomic_ops_gpl.so.1:AO_stack_head_ptr
+libatomic_ops_gpl.so.1:AO_stack_init
+libatomic_ops_gpl.so.1:AO_stack_is_lock_free
+libatomic_ops_gpl.so.1:AO_stack_next_ptr
 libatomic_ops_gpl.so.1:AO_stack_pop_acquire
 libatomic_ops_gpl.so.1:AO_stack_push_release
